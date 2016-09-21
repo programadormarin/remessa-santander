@@ -1,0 +1,22 @@
+{
+    "name": "hmarinjr/remessa-santander",
+    "type": "project",
+    "license": "public",
+    "description": "Library to create a remittance",
+    "require": {
+        "php": ">=5.4",
+	"phing/phing": "2.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.6",
+        "squizlabs/php_codesniffer": "~1.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Hmarinjr\\RemessaSantander\\": [
+                "src"
+            ]
+        }
+    }
+}
+

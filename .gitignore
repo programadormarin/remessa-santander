@@ -1,2 +1,13 @@
-application/cache/*
-application/logs/*
+nbproject
+vendor
+.buildpath
+.project
+.settings
+*.DS_Store
+*.idea
+ Vim
+*.swp
+*.swo
+phpunit.xml
+composer.lock
+

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model xlink:href="vendor/phing/phing/etc/phing-grammar.rng"
+            type="application/xml"
+            schematypens="http://relaxng.org/ns/structure/1.0" ?>
+<project name="RemessaSantander" default="build">
+    <property name="project.bindir" value="${project.basedir}/vendor/bin/" />
+    <!-- Deployment targets -->
+    <target name="install">
+        <phingcall target="update-code" />
+        <phingcall target="update-dependencies" />
+    </target>
+
+    <!-- Development targets -->
+    <target name="build">
+        <phingcall target="code-style" />
+        <phingcall target="test" />
+    </target>
+    <target name="update-code">
+        <exec executable="git" passthru="true" checkreturn="true">
+            <arg value="pull" />
+        </exec>
+    </target>
+    <target name="update-dependencies">
+        <exec executable="composer" passthru="true" checkreturn="true">
+            <arg value="install" />
+            <arg value="--prefer-dist" />
+            <arg value="--no-dev" />
+            <arg value="-o" />
+        </exec>
+    </target>
+    <target name="test">
+        <exec executable="${project.bindir}phpunit" passthru="true" checkreturn="true" />
+    </target>
+    <target name="code-style">
+        <exec executable="${project.bindir}phpcs" passthru="true" checkreturn="true">
+            <arg value="--standard=PSR2" />
+            <arg value="--ignore=application" />
+            <arg value="--ignore=db-versions" />
+            <arg value="--ignore=fontes" />
+            <arg value="--ignore=modules" />
+            <arg value="--ignore=system" />
+            <arg value="--ignore=tmp" />
+            <arg value="--ignore=vendor" />
+            <arg value="--ignore=www" />
+            <arg value="--ignore=boot.php" />
+            <arg value="${project.basedir}" />
+        </exec>
+    </target>
+</project>
+
