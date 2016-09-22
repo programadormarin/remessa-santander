@@ -4,7 +4,7 @@ namespace Hmarinjr\RemessaSantander;
 use InvalidArgumentException;
 use DateTime;
 
-class Detalhes extends Funcoes
+class Movimento extends Funcoes
 {
     /**
      * @var int 001 - 001 - 1 - N CONSTANTE
@@ -215,6 +215,69 @@ class Detalhes extends Funcoes
      * @var int 395 - 400 - 6 - N
      */
     private $sequencial;
+
+    /**
+     * @param int $agencia
+     * @param string $bairroPagador
+     * @param string $cepPagador
+     * @param string $cidadePagador
+     * @param string $codigoTransmissao
+     * @param int $complemento
+     * @param string $controleParticipante
+     * @param string $cpfPagador
+     * @param string $enderecoPagador
+     * @param string $estadoPagador
+     * @param string $inscricaoCedente
+     * @param string $nomePagador
+     * @param string $nomeSacador
+     * @param int $nossoNumero
+     * @param int $sequencial
+     * @param string $seuNumero
+     * @param float $valor
+     * @param DateTime $vencimento
+     * @param DateTime $dataEmissao
+     */
+    public function __construct(
+        $agencia,
+        $bairroPagador,
+        $cepPagador,
+        $cidadePagador,
+        $codigoTransmissao,
+        $complemento,
+        $controleParticipante,
+        $cpfPagador,
+        $enderecoPagador,
+        $estadoPagador,
+        $inscricaoCedente,
+        $nomePagador,
+        $nomeSacador,
+        $nossoNumero,
+        $sequencial,
+        $seuNumero,
+        $valor,
+        DateTime $vencimento,
+        DateTime $dataEmissao
+    ) {
+        $this->setAgencia($agencia);
+        $this->setBairroPagador($bairroPagador);
+        $this->setCepPagador($cepPagador);
+        $this->setCidadePagador($cidadePagador);
+        $this->setCodigoTransmissao($codigoTransmissao);
+        $this->setComplemento($complemento);
+        $this->setControleParticipante($controleParticipante);
+        $this->setCpfPagador($cpfPagador);
+        $this->setDataEmissao($dataEmissao);
+        $this->setEnderecoPagador($enderecoPagador);
+        $this->setEstadoPagador($estadoPagador);
+        $this->setInscricaoCedente($inscricaoCedente);
+        $this->setNomePagador($nomePagador);
+        $this->setNomeSacador($nomeSacador);
+        $this->setNossoNumero($nossoNumero);
+        $this->setSequencial($sequencial);
+        $this->setSeuNumero($seuNumero);
+        $this->setValor($valor);
+        $this->setVencimento($vencimento);
+    }
 
     /**
      * @return int
