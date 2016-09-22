@@ -19,12 +19,7 @@ class Arquivo
      */
     public function __construct($codigoTransmissao, DateTime $dataGravacao, $nomeEmpresa, $numeroSequencialRemessa)
     {
-        $header = new Header();
-
-        $header->setCodigoTransmissao($codigoTransmissao);
-        $header->setDataGravacao($dataGravacao);
-        $header->setNomeEmpresa($nomeEmpresa);
-        $header->setNumeroSequencialRemessa($numeroSequencialRemessa);
+        $header = new Header($codigoTransmissao, $nomeEmpresa, $dataGravacao, $numeroSequencialRemessa);
 
         $this->setHeader($header);
     }

@@ -114,11 +114,11 @@ class Header extends Funcoes
     {
         $length = (int) strlen($nomeEmpresa);
 
-        if ($length <= 0 || $length > 30) {
+        if ($length <= 0) {
             throw new InvalidArgumentException('Tamanho de texto invalido, para o nome da empresa.');
         }
 
-        $this->nomeEmpresa = $this->montarBranco($nomeEmpresa, 30, 'right');
+        $this->nomeEmpresa = $this->montarBranco(mb_substr($nomeEmpresa, 0, 30), 30, 'right');
     }
 
     /**
@@ -157,14 +157,14 @@ class Header extends Funcoes
 
         //motando linha do cabeçalho da remessa
         $linha = $this->identificacaoRegistro .
-            $this->identificacaoArquivoRemessa .
-            $this->literalRemessa .
-            $this->codigoServico .
-            $this->literalServico .
-            $this->getCodigoEmpresa() .
+            $this->addZeros($this->identificacaoArquivoRemessa, 2) .
+            $this->montarBranco($this->literalRemessa, 7) .
+            $this->addZeros($this->codigoServico, 2) .
+            $this->montarBranco($this->literalServico, 15) .
+            $this->getCodigoTransmissao() .
             $this->getNomeEmpresa() .
-            $this->numeroBradescoCompensacao .
-            $this->nomeBanco .
+            $this->addZeros($this->numeroBradescoCompensacao, 3) .
+            $this->montarBranco($this->nomeBanco, 15) .
             $this->getDataGravacao()->format('dmy') .
             $this->addZeros('', 16) .
             $this->montarBranco('', 274) .
