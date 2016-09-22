@@ -64,9 +64,9 @@ class Arquivo
     /**
      * @param Movimento $movimentos
      */
-    public function addMovimentos(Movimento $movimentos)
+    public function addMovimento(Movimento $movimentos)
     {
-        $this->movimentos = $movimentos;
+        $this->movimentos[] = $movimentos;
     }
 
     /**
