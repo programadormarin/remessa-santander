@@ -108,7 +108,7 @@ class Arquivo
         $valorTotal= 0;
         foreach ($this->getMovimentos() as $movimento) {
             $movimento->setSequencial($sequencial++);
-            $valorTotal += $movimento->getValorTitulo() / 100;
+            $valorTotal += $movimento->getValor();
             $dados .= $movimento->montaLinha() . self::QUEBRA_LINHA;
         }
         //montando rodapé

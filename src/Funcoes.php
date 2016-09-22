@@ -84,10 +84,10 @@ abstract class Funcoes
 
         if ($this->validaTamanhoCampo($return, 400)) {
             //convertendo string para mai�scula
-            return strtoupper($this->removeAcentos($return));
+            return mb_strtoupper($this->removeAcentos($return));
         } else {
             //die($string);
-            throw new Exception('Erro - Informações de linha invalidas.');
+            throw new Exception('Informações de linha invalidas');
         }
     }
 
@@ -234,9 +234,8 @@ abstract class Funcoes
     public function digitoVerificadorNossoNumero($nosso_numero)
     {
         $modulo = self::modulo11($nosso_numero, 7);
-        $digito = !in_array($modulo['resto'], [0, 1, 10]) ?  11 - $modulo['resto'] : $modulo['digito'];
 
-        return $dv;
+        return !in_array($modulo['resto'], [0, 1, 10]) ?  11 - $modulo['resto'] : $modulo['digito'];
     }
 
     /**
