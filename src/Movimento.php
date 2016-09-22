@@ -656,15 +656,15 @@ class Movimento extends Funcoes
      */
     public function setControleParticipante($controleParticipante)
     {
-        if (strlen($controleParticipante) != 25) {
-            throw new InvalidArgumentException('O código de controle do participante');
+        if (strlen($controleParticipante) > 25) {
+            throw new InvalidArgumentException('O código de controle do participante deve ter no máximo 25 catacteres');
         }
 
         $this->controleParticipante = $controleParticipante;
     }
 
     /**
-     * @param string $nossoNumero
+     * @param int $nossoNumero
      */
     public function setNossoNumero($nossoNumero)
     {
@@ -980,7 +980,7 @@ class Movimento extends Funcoes
      */
     public function setComplemento($complemento)
     {
-        if (!strlen($complemento) != 2) {
+        if (strlen($complemento) != 2) {
             throw new InvalidArgumentException('O complemento deve ter 2 dígitos numéricos');
         }
 
@@ -1019,14 +1019,13 @@ class Movimento extends Funcoes
 
     public function montaLinha()
     {
-         $linha = $this->getIdentificacaoRegistro() .
+         $linha = $this->getTipoRegistro() .
             $this->addZeros($this->getTipoInscricaoCedente(), 2) .
-            $this->addZeros($this->getCnpjCedente(), 14) .
+            $this->addZeros($this->getInscricaoCedente(), 14) .
             $this->addZeros($this->getCodigoTransmissao(), 20) .
-            $this->montarBranco($this->getCodigoTransmissao(), 25) .
             $this->addZeros($this->getControleParticipante(), 25) .
             $this->addZeros($this->getNossoNumero(), 7) .
-            $this->digitoVerificadorNossoNumero($this->getNossoNumero()).
+            $this->digitoVerificadorNossoNumero($this->addZeros($this->getNossoNumero(), 7)).
             $this->addZeros($this->getDataSegundoDesconto() ? $this->getDataSegundoDesconto()->format('dmy') : 0, 6) .
             $this->montarBranco('', 1) .
             $this->addZeros($this->getInformacaoMulta(), 1) .
@@ -1040,6 +1039,7 @@ class Movimento extends Funcoes
             $this->montarBranco($this->getSeuNumero(), 10) .
             $this->addZeros($this->getVencimento() ? $this->getVencimento()->format('dmy') : 0, 6) .
             $this->addZeros(number_format($this->getValor(), 2, '', ''), 13) .
+            $this->addZeros($this->codigoBanco, 3) .
             $this->addZeros($this->getAgencia(), 5) .
             $this->addZeros($this->getEspecie(), 2) .
             $this->getTipoAceite() .
@@ -1052,9 +1052,10 @@ class Movimento extends Funcoes
             $this->addZeros(number_format($this->getValorIOF(), 2, '', ''), 13) .
             $this->addZeros(number_format($this->getValorAbatimento(), 2, '', ''), 13) .
             $this->addZeros($this->getTipoInscricaoPagador(), 2) .
-            $this->addZeros($this->getCpfPagador(), 14) .
+            $this->addZeros($this->getInscricaoPagador(), 14) .
             $this->montarBranco($this->getNomePagador(), 40) .
             $this->montarBranco($this->getEnderecoPagador(), 40) .
+            $this->montarBranco($this->getBairroPagador(), 12) .
             $this->addZeros($this->getCepPagador(), 8) .
             $this->montarBranco($this->getCidadePagador(), 15) .
             $this->montarBranco($this->getEstadoPagador(), 2) .
