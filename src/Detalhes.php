@@ -605,8 +605,8 @@ class Detalhes extends Funcoes
      */
     public function setNossoNumero($nossoNumero)
     {
-        if (!is_numeric($nossoNumero) || strlen($nossoNumero) > 8) {
-            throw new InvalidArgumentException('O nosso número deve ser numérico de, no máximo, 8 posições');
+        if (!is_numeric($nossoNumero) || strlen($nossoNumero) > 7) {
+            throw new InvalidArgumentException('O nosso número deve ser numérico de, no máximo, 7 posições');
         }
 
         $this->nossoNumero = $nossoNumero;
@@ -962,7 +962,8 @@ class Detalhes extends Funcoes
             $this->addZeros($this->getCodigoTransmissao(), 20) .
             $this->montarBranco($this->getCodigoTransmissao(), 25) .
             $this->addZeros($this->getControleParticipante(), 25) .
-            $this->addZeros($this->getNossoNumero(), 8) .
+            $this->addZeros($this->getNossoNumero(), 7) .
+            $this->digitoVerificadorNossoNumero($this->getNossoNumero()).
             $this->addZeros($this->getDataSegundoDesconto() ? $this->getDataSegundoDesconto()->format('dmy') : 0, 6) .
             $this->montarBranco('', 1) .
             $this->addZeros($this->getInformacaoMulta(), 1) .

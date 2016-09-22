@@ -233,20 +233,8 @@ abstract class Funcoes
      */
     public function digitoVerificadorNossoNumero($nosso_numero)
     {
-        //die($nosso_numero);
         $modulo = self::modulo11($nosso_numero, 7);
-
-        //die(print_r($modulo));
-
-        $digito = 11 - $modulo['resto'];
-
-        if ($digito == 10) {
-            $dv = "P";
-        } elseif ($digito == 11) {
-            $dv = 0;
-        } else {
-            $dv = $digito;
-        }
+        $digito = !in_array($modulo['resto'], [0, 1, 10]) ?  11 - $modulo['resto'] : $modulo['digito'];
 
         return $dv;
     }
@@ -281,7 +269,11 @@ abstract class Funcoes
             // Remainder.
             'resto' => $soma % 11,
         );
-        if ($result['digito'] == 10) {
+        if ($result['resto'] == 10) {
+            $result['digito'] = 1;
+        }
+
+        if ($result['resto'] == 1 || $result['resto'] == 0) {
             $result['digito'] = 0;
         }
         return $result;
