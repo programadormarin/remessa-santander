@@ -1,7 +1,8 @@
 <?php
 namespace Hmarinjr\RemessaSantander;
 
-use Exception;
+use InvalidArgumentException;
+use DateTime;
 
 class Header extends Funcoes
 {
@@ -21,7 +22,7 @@ class Header extends Funcoes
     private $literalServico = 'COBRANCA';
 
     //027 - 046 - 20 - N COMPLETAR COM ZEROS A ESQUERDA
-    private $codigoEmpresa = '';     //<---- verificar observações
+    private $codigoTransmissao = '';     //<---- verificar observações
 
     //047 - 076 - 30 - A - COMPLETAR COM ESPAÇOS EM BRANCO A DIREITA
     private $nomeEmpresa = '';
@@ -32,8 +33,10 @@ class Header extends Funcoes
     //080 - 094 - 15 - A CONSTANTE - COMPLETAR COM ESPAÇOES EM BRANCO A DIREITA
     private $nomeBanco = 'SANTANDER';
 
-    //095 - 100 - 6 - N
-    private $dataGravacao = '';     //<---- verificar observações
+    /**
+     * @var DateTime 095 - 100 - 6 - N
+     */
+    private $dataGravacao = null;     //<---- verificar observações
 
     //392 - 394 - 3 - N
     private $numeroSequencialRemessa = '000';
@@ -42,11 +45,25 @@ class Header extends Funcoes
     private $numeroSequencialRegistro = '000001';
 
     /**
+     * @param string $codigoTransmissao
+     * @param string $nomeEmpresa
+     * @param DateTime $dataGravacao
+     * @param int $numeroSequencialRemessa
+     */
+    public function __construct($codigoTransmissao, $nomeEmpresa, DateTime $dataGravacao, $numeroSequencialRemessa)
+    {
+        $this->setCodigoTransmissao($codigoTransmissao);
+        $this->setNomeEmpresa($nomeEmpresa);
+        $this->dataGravacao = $dataGravacao;
+        $this->setNumeroSequencialRemessa($numeroSequencialRemessa);
+    }
+
+    /**
      * @return the $codigo_empresa
      */
-    public function getCodigoEmpresa()
+    public function getCodigoTransmissao()
     {
-        return $this->codigoEmpresa;
+        return $this->codigoTransmissao;
     }
 
     /**
@@ -58,13 +75,13 @@ class Header extends Funcoes
     }
 
     /**
-     * @return the $data_gravacao
+     * @return DateTime
      */
     public function getDataGravacao()
     {
         //verifica se a variavel esta vazia, se sim poe a data atual como default
         if (empty($this->dataGravacao)) {
-            $this->setDataGravacao(date('dmy'));
+            $this->setDataGravacao(new DateTime());
         }
 
         return $this->dataGravacao;
@@ -79,60 +96,60 @@ class Header extends Funcoes
     }
 
     /**
-     * @param string $codigo_empresa
+     * @param string $codigoTransmissao
      */
-    public function setCodigoEmpresa($codigo_empresa)
+    public function setCodigoTransmissao($codigoTransmissao)
     {
-        if (!is_numeric($codigo_empresa)) {
-            throw new Exception('Error - Não é um numero');
+        if (strlen($codigoTransmissao) != 20) {
+            throw new InvalidArgumentException('Código da empresa deve ter 20 posições');
         }
 
-        $this->codigoEmpresa = $this->addZeros($codigo_empresa, 20);
+        $this->codigoTransmissao = $this->addZeros($codigoTransmissao, 20);
     }
 
     /**
-     * @param string $nome_empresa
+     * @param string $nomeEmpresa
      */
-    public function setNomeEmpresa($nome_empresa)
+    public function setNomeEmpresa($nomeEmpresa)
     {
-        $length = (int) strlen($nome_empresa);
+        $length = (int) strlen($nomeEmpresa);
 
         if ($length <= 0 || $length > 30) {
-            throw new Exception('Error - Tamanho de texto invalido, para o nome da empresa.');
+            throw new InvalidArgumentException('Tamanho de texto invalido, para o nome da empresa.');
         }
 
-        $this->nomeEmpresa = $this->montarBranco($nome_empresa, 30, 'right');
+        $this->nomeEmpresa = $this->montarBranco($nomeEmpresa, 30, 'right');
     }
 
     /**
-     * @param string $data_gravacao
+     * @param DateTime $data_gravacao
      */
-    public function setDataGravacao($data_gravacao)
+    public function setDataGravacao(DateTime $data_gravacao)
     {
         if (!is_numeric($data_gravacao)) {
-            throw new Exception('Error - O campo data de gravação não é um numero.');
+            throw new InvalidArgumentException('O campo data de gravação não é um numero.');
         }
 
         $this->dataGravacao = $data_gravacao;
     }
 
     /**
-     * @param string $numero_sequencial_remessa
+     * @param string $numeroSequencialRemessa
      */
-    public function setNumeroSequencialRemessa($numero_sequencial_remessa)
+    public function setNumeroSequencialRemessa($numeroSequencialRemessa)
     {
         //verificando se � um numero
-        if (!is_numeric($numero_sequencial_remessa)) {
-            throw new Exception('Error - O campo numero sequencial remessa não é um numero.');
+        if (!is_numeric($numeroSequencialRemessa)) {
+            throw new InvalidArgumentException('O campo numero sequencial remessa não é um numero.');
         }
 
         //completando a string com zeros
-        $numero_sequencial_remessa = $this->addZeros($numero_sequencial_remessa, 3);
-        if (!$this->validaTamanhoCampo($numero_sequencial_remessa, 3)) {
-            throw new Exception('Error - Tamanho de texto invalido, para o campo numero sequencial remessa.');
+        $numeroSequencialRemessa = $this->addZeros($numeroSequencialRemessa, 3);
+        if (!$this->validaTamanhoCampo($numeroSequencialRemessa, 3)) {
+            throw new InvalidArgumentException('Tamanho de texto invalido, para o campo numero sequencial remessa.');
         }
 
-        $this->numeroSequencialRemessa = $numero_sequencial_remessa;
+        $this->numeroSequencialRemessa = $numeroSequencialRemessa;
     }
 
     public function montaLinha()
@@ -148,7 +165,7 @@ class Header extends Funcoes
             $this->getNomeEmpresa() .
             $this->numeroBradescoCompensacao .
             $this->nomeBanco .
-            $this->getDataGravacao() .
+            $this->getDataGravacao()->format('dmy') .
             $this->addZeros('', 16) .
             $this->montarBranco('', 274) .
             $this->getNumeroSequencialRemessa() .

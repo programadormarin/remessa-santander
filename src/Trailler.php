@@ -18,6 +18,13 @@ class Trailler extends Funcoes
     //395 - 400 - 6 - N
     private $numeroSequencialRegistro = ''; //ultima numero do sequencial dado pelo gerador
 
+    public function __construct($quantidadeRegistros, $valorTotal, $numeroSequencialRegistro)
+    {
+        $this->setQuantidadeRegistros($quantidadeRegistros);
+        $this->setValorTotal($valorTotal);
+        $this->setNumeroSequencialRegistro($numeroSequencialRegistro);
+    }
+
     /**
      * @return the $numero_sequencial_regsitro
      */
@@ -62,15 +69,15 @@ class Trailler extends Funcoes
     }
 
     /**
-     * @param string $numero_sequencial_regsitro
+     * @param string $numeroSequencialRegistro
      */
-    public function setNumeroSequencialRegistro($numero_sequencial_regsitro)
+    public function setNumeroSequencialRegistro($numeroSequencialRegistro)
     {
-        if (is_numeric($numero_sequencial_regsitro)) {
-            $numero_sequencial_regsitro = $this->addZeros($numero_sequencial_regsitro, 6);
+        if (is_numeric($numeroSequencialRegistro)) {
+            $numeroSequencialRegistro = $this->addZeros($numeroSequencialRegistro, 6);
 
-            if ($this->validaTamanhoCampo($numero_sequencial_regsitro, 6)) {
-                $this->numeroSequencialRegistro = $numero_sequencial_regsitro;
+            if ($this->validaTamanhoCampo($numeroSequencialRegistro, 6)) {
+                $this->numeroSequencialRegistro = $numeroSequencialRegistro;
             } else {
                 throw new Exception('Error - Numero do sequencial invalido.');
             }
