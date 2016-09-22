@@ -39,16 +39,11 @@ class Trailler extends Funcoes
      */
     public function setQuantidadeRegistros($quantidadeRegistros)
     {
-        if (is_numeric($quantidadeRegistros)) {
-            $quantidadeRegistros = $this->addZeros($quantidadeRegistros, 6);
-
-            if ($this->validaTamanhoCampo($quantidadeRegistros, 6)) {
-                $this->quantidadeRegistros = $quantidadeRegistros;
-                return;
-            }
+        if (!is_numeric($quantidadeRegistros)) {
+            throw new \InvalidArgumentException('Quantidade de registros invalida');
         }
 
-        throw new \InvalidArgumentException('Quantidade de registros invalida');
+        $this->quantidadeRegistros = $quantidadeRegistros;
     }
 
     /**
@@ -56,16 +51,11 @@ class Trailler extends Funcoes
      */
     public function setValorTotal($valorTotal)
     {
-        if (is_numeric($valorTotal)) {
-            $valorTotal = $this->addZeros(number_format($valorTotal, 2, ',', ''), 13);
-
-            if ($this->validaTamanhoCampo($valorTotal, 13)) {
-                $this->valorTotal = $valorTotal;
-                return;
-            }
+        if (!is_numeric($valorTotal)) {
+            throw new \InvalidArgumentException('Valor total invalido');
         }
 
-        throw new \InvalidArgumentException('Valor total invalido');
+        $this->valorTotal = $valorTotal;
     }
 
     /**
@@ -94,10 +84,10 @@ class Trailler extends Funcoes
     {
         // TODO Auto-generated method stub
         $linha = $this->identificacaoRegistro .
-            $this->quantidadeRegistros.
-            $this->valorTotal .
+            $this->addZeros($this->quantidadeRegistros, 6) .
+            $this->addZeros(number_format($this->valorTotal, 2, '', ''), 13).
             $this->addZeros('', 374) .
-            $this->getNumeroSequencialRegistro();
+            $this->addZeros($this->getNumeroSequencialRegistro(), 6);
 
         return $this->validaLinha($linha);
     }
