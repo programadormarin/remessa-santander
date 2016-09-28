@@ -157,7 +157,7 @@ class Header extends Funcoes
 
         //motando linha do cabeçalho da remessa
         $linha = $this->identificacaoRegistro .
-            $this->addZeros($this->identificacaoArquivoRemessa, 2) .
+            $this->identificacaoArquivoRemessa .
             $this->montarBranco($this->literalRemessa, 7) .
             $this->addZeros($this->codigoServico, 2) .
             $this->montarBranco($this->literalServico, 15) .
@@ -167,7 +167,7 @@ class Header extends Funcoes
             $this->montarBranco($this->nomeBanco, 15) .
             $this->getDataGravacao()->format('dmy') .
             $this->addZeros('', 16) .
-            $this->montarBranco('', 274) .
+            $this->montarBranco('', 275) .
             $this->getNumeroSequencialRemessa() .
             $this->numeroSequencialRegistro;
 
