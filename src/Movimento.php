@@ -932,7 +932,9 @@ class Movimento extends Funcoes
      */
     public function setCepPagador($cepPagador)
     {
-        if (!strlen($cepPagador) != 8) {
+        $cepPagador = preg_replace('/[^0-9]/', '', $cepPagador);
+
+        if (strlen($cepPagador) != 8) {
             throw new InvalidArgumentException('O CEP do pagador deve ter 8 dígitos numéricos');
         }
 
@@ -952,7 +954,7 @@ class Movimento extends Funcoes
      */
     public function setEstadoPagador($estadoPagador)
     {
-        if (!strlen($estadoPagador) != 2) {
+        if (strlen($estadoPagador) != 2) {
             throw new InvalidArgumentException('O estado do pagador deve ter 2 caracteres');
         }
 
