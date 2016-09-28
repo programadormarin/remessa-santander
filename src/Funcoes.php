@@ -12,7 +12,7 @@ abstract class Funcoes
      * @param string $posicao
      * @return string|boolean
      */
-    public function montarBranco($string, $tamanho, $posicao = 'left')
+    public function montarBranco($string, $tamanho, $posicao = 'right')
     {
         //contanto tamanho da string
         $qtd_value = (int) strlen($string);
@@ -26,7 +26,6 @@ abstract class Funcoes
                 $result .= ' ';
             }
 
-            //verificando posi��o dos zeros
             if ($posicao == 'left') {
                 $result = $result . $string;
             } elseif ($posicao == 'right') {
