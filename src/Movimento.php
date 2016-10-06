@@ -1039,13 +1039,13 @@ class Movimento extends Funcoes
             $this->getCodigoCarteira() .
             $this->addZeros($this->getCodigoOcorrencia(), 2) .
             $this->montarBranco($this->getSeuNumero(), 10) .
-            $this->addZeros($this->getVencimento() ? $this->getVencimento()->format('dmy') : 0, 6) .
+            $this->addZeros($this->getDataEmissao() ? $this->getDataEmissao()->format('dmy') : 0, 6) .
             $this->addZeros(number_format($this->getValor(), 2, '', ''), 13) .
             $this->addZeros($this->codigoBanco, 3) .
             $this->addZeros($this->getAgencia(), 5) .
             $this->addZeros($this->getEspecie(), 2) .
             $this->getTipoAceite() .
-            $this->addZeros($this->getDataEmissao() ? $this->getDataEmissao()->format('dmy') : 0, 6) .
+            $this->addZeros($this->getVencimento() ? $this->getVencimento()->format('dmy') : 0, 6) .
             $this->addZeros($this->getPrimeiraInstrucaoCobranca(), 2) .
             $this->addZeros($this->getSegundaInstrucaoCobranca(), 2) .
             $this->addZeros(number_format($this->getValorDiaAtrazo(), 2, '', ''), 13) .
